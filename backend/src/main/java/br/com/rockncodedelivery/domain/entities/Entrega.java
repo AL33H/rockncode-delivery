@@ -41,7 +41,7 @@ public class Entrega {
         this.status = StatusEntrega.CRIADO;
     }
 
-    public void proximoStatus() {
+    public boolean proximoStatus() {
         if (entregador != null) {
             switch (this.status) {
                 case CRIADO:
@@ -51,7 +51,10 @@ public class Entrega {
                     this.status = StatusEntrega.CONCLUIDO;
                     break;
             }
+        } else {
+            return false;
         }
+        return true;
     }
 
 

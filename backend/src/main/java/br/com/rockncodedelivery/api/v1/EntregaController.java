@@ -2,11 +2,11 @@ package br.com.rockncodedelivery.api.v1;
 
 import br.com.rockncodedelivery.api.v1.dto.EntregaRequest;
 import br.com.rockncodedelivery.domain.entities.Entrega;
-import br.com.rockncodedelivery.domain.entities.Entregador;
 import br.com.rockncodedelivery.domain.service.impl.EntregaServiceImpl;
 import br.com.rockncodedelivery.external.dto.directions.ResponseDirectionsApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,13 +52,17 @@ public class EntregaController {
     }
 
     @PutMapping("vincular/")
-    public void vincularEntregadorAEntrega(@RequestParam("idEntregador")Long idEntregador, @RequestParam("idEntrega") Long idEntrega) {
+    public void vincularEntregadorAEntrega(@RequestParam("idEntregador") Long idEntregador, @RequestParam("idEntrega") Long idEntrega) {
         entregaService.vincularEntregadorAEntrega(idEntregador, idEntrega);
     }
 
-    @PutMapping("{id}")
-    public void proximoStatus(@PathVariable Long idEntrega) {
-        entregaService.proximoStatus(idEntrega);
+    @PutMapping("{idEntrega}")
+    public ResponseEntity<?> proximoStatus(@PathVariable Long idEntrega) {
+        if(entregaService.proximoStatus(idEntrega)){
+            return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.OK);
+        } else {
+            return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
 }
