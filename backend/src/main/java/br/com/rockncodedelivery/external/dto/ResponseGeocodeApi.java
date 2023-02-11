@@ -4,15 +4,10 @@ import lombok.*;
 
 import java.util.ArrayList;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class ResponseGeocodeApi {
     private ArrayList<Result> results;
     private String status;
-
 
 }
 

@@ -22,9 +22,10 @@ public class GoogleAPI {
     private final String constKEY_VALUE = "AIzaSyDaDcRBJBGojQWEaULJuACXfY3HM0TdanU";
     private final String constBASE_URL_GEOCODE = "https://maps.googleapis.com/maps/api/geocode/";
     private final String constBASE_URL_DISTANCEMATRIX = "https://maps.googleapis.com/maps/api/distancematrix/";
+    private final String constBASE_URL_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions/";
 
 
-    public ResponseGeocodeApi requestToGeocodeApi(String adress) throws RuntimeException {
+    public ResponseGeocodeApi buscaGeolocalizacaoEndereco(String adress) throws RuntimeException {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -50,7 +51,31 @@ public class GoogleAPI {
         return exchange.getBody();
     }
 
-    public ResponseDistanceMatrix requestToDistanceMatrixApi(String enderecoOrigem, String enderecoFinal) {
+    public ResponseDistanceMatrix buscaDistanciaEntreDoisEnderecos(String enderecoOrigem, String enderecoFinal) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<Object> objectHttpEntity = new HttpEntity<>(httpHeaders);
+
+        String URL = constBASE_URL_DISTANCEMATRIX
+                .concat("json?")
+                .concat("origins=" + enderecoOrigem)
+                .concat("&destinations=" + enderecoFinal)
+                .concat("&key=" + constKEY_VALUE);
+        ResponseEntity<ResponseDistanceMatrix> exchange = restTemplate
+                .exchange(URL, HttpMethod.GET, objectHttpEntity, ResponseDistanceMatrix.class);
+
+        if (exchange.getStatusCode() != HttpStatus.OK ||
+                exchange.getBody().getStatus().equals("REQUEST_DENIED")) {
+
+            throw new RuntimeException("Erro ao requisitar no google Api.");
+
+        }
+
+        return exchange.getBody();
+    }
+    public ResponseDistanceMatrix buscaMelhorRotaEntreDoisEnderecos(String enderecoOrigem, String enderecoFinal) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
