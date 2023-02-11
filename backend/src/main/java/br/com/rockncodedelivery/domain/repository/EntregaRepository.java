@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EntregaRepository extends JpaRepository<Entrega, Long> {
+public interface              EntregaRepository extends JpaRepository<Entrega, Long> {
 
     List<Entrega> findByStatus(StatusEntrega status);
 }
