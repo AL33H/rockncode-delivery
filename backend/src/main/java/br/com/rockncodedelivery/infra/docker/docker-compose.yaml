@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: delivery
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DATABASE: rockncode_db
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - rockncode-compose-network
+    restart: unless-stopped
+
+volumes:
+  postgres:
+
+networks:
+  rockncode-compose-network:
+    driver: bridge
