@@ -1,0 +1,17 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: sans-serif;
+}
+
+#container {
+    
+}
+
+#navbar {
+    background-color: #282A3A;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
