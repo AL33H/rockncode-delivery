@@ -19,14 +19,24 @@ public class Entrega {
     @OneToOne
     private Entregador entregador;
     @Embedded
-    private Localizacao enderecoOrigem;
+    private LocalizacaoOrigem enderecoOrigem;
     @Embedded
-    private Localizacao enderecoDestino;
+    private LocalizacaoDestino enderecoDestino;
     private Double valor;
     @Enumerated(EnumType.STRING)
     private StatusEntrega Status = StatusEntrega.CRIADO;
 
     public Entrega() {
+    }
+
+    public Entrega(Long id, String nomeSolicitante, Entregador entregador, LocalizacaoOrigem enderecoOrigem, LocalizacaoDestino enderecoDestino, Double valor, StatusEntrega status) {
+        this.id = id;
+        this.nomeSolicitante = nomeSolicitante;
+        this.entregador = entregador;
+        this.enderecoOrigem = enderecoOrigem;
+        this.enderecoDestino = enderecoDestino;
+        this.valor = valor;
+        Status = StatusEntrega.CRIADO;
     }
 
     public void proximoStatus() {

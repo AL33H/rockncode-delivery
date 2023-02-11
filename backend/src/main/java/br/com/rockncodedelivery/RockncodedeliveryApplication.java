@@ -1,8 +1,9 @@
 package br.com.rockncodedelivery;
 
 
+import br.com.rockncodedelivery.api.v1.dto.EntregaRequest;
+import br.com.rockncodedelivery.domain.service.impl.EntregaServiceImpl;
 import br.com.rockncodedelivery.external.GoogleAPI;
-import br.com.rockncodedelivery.external.dto.directions.responseDirectionsApi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -17,12 +18,12 @@ public class RockncodedeliveryApplication {
 
     public static void teste(String... args) {
 
-        GoogleAPI geocodeAPI = new GoogleAPI();
-//        ResponseGeocodeApi responseGeocodeApi = geocodeAPI.requestToGeocodeApi("baixo%2guandu%2espirito%2santo");
-//        System.out.println(responseGeocodeApi.toString());
-        responseDirectionsApi responseDirectionsApi = geocodeAPI
-                .buscaMelhorRotaEntreDoisEnderecos("62960000", "63960000");
-        System.out.println(responseDirectionsApi.toString());
+        EntregaServiceImpl entregaService = new EntregaServiceImpl(new GoogleAPI());
+
+        EntregaRequest aleff = new EntregaRequest("Aleff", "63960000", "62960000");
+
+        entregaService.gerarNovaEntrega(aleff);
+
 
     }
 

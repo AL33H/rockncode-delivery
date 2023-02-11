@@ -11,8 +11,8 @@ import javax.persistence.Embeddable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Localizacao {
-    private Double latitude;
-    private Double longitude;
+public class LocalizacaoOrigem {
+    private Double latitudeOrigem;
+    private Double longitudeOrigem;
 
 }
