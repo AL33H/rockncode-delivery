@@ -1,7 +1,7 @@
 package br.com.rockncodedelivery.external;
 
-import br.com.rockncodedelivery.external.dto.ResponseDistanceMatrix;
-import br.com.rockncodedelivery.external.dto.ResponseGeocodeApi;
+import br.com.rockncodedelivery.external.dto.distanceMatrix.ResponseDistanceMatrix;
+import br.com.rockncodedelivery.external.dto.geocode.ResponseGeocodeApi;
 import br.com.rockncodedelivery.external.dto.directions.responseDirectionsApi;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
