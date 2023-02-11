@@ -23,7 +23,10 @@ O Objetivo é promover a melhor experiência de entrega ao consumidor solicitant
 utilizando-se de plataforma intuitiva e simples, sem perder a robustez e segurança
 necessária, assim como possibilitar ao operador responsável, gestão ágil e
 encorpada de recursos que auxiliarão na tomada de decisão quanto a indicação de
-entregador e roteirização.
+entregador e roteirização. Foram utilizados os recursos próprios do ambiente de
+desenvolvimento como a IDE Vs Code para codifição do projeto, Figma para prototipação,
+navegador Google Chrome para sanar dúvidas. Recursos humanos foram: dois dev back end,
+um profissional de negócios e um dev front jr.
 
 ## Equipe e Contribuições
 Formamos um time robusto e qualificado para levantarmos todos os requisitos e
