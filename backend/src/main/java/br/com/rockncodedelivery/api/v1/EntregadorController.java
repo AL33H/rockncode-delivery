@@ -36,7 +36,7 @@ public class EntregadorController {
     }
 
     @GetMapping("/{id}")
-    public void buscarPorId(@RequestParam(value = "id") Long id){
+    public void buscarPorId(@PathVariable Long id){
         entregadorService.buscarPorId(id);
     }
 }

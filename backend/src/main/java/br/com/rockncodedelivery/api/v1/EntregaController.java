@@ -26,9 +26,9 @@ public class EntregaController {
         return entregaService.gerarNovaEntrega(entregaRequest);
     }
 
-    @GetMapping("/${id}")
+    @GetMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Entrega buscarPorId(@RequestParam(value = "id") Long id) {
+    public Entrega buscarPorId(@PathVariable Long id) {
         return entregaService.buscarPorId(id);
     }
 
@@ -38,9 +38,9 @@ public class EntregaController {
         return entregaService.buscarTodos();
     }
 
-    @DeleteMapping("/${id}")
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletarPorId(@RequestParam(value = "id") Long id){
+    public void deletarPorId(@PathVariable Long id){
         entregaService.deletarPorId(id);
     }
 
