@@ -12,32 +12,10 @@ public class ResponseGeocodeApi {
 }
 
 @Data
-class Result {
-    private ArrayList<AddressComponent> address_components;
-    private String formatted_address;
-    private Geometry geometry;
-    private String place_id;
-    private PlusCode plus_code;
-    private ArrayList<String> types;
-}
-@Data
 class AddressComponent {
     private String long_name;
     private String short_name;
     private ArrayList<String> types;
-}
-
-@Data
-class Geometry {
-    private Location location;
-    private String location_type;
-    private Viewport viewport;
-}
-
-@Data
-class Location {
-    private double lat;
-    private double lng;
 }
 
 @Data

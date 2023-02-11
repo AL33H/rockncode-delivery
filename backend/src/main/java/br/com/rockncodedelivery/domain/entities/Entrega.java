@@ -2,12 +2,14 @@ package br.com.rockncodedelivery.domain.entities;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Builder
 @Getter
+@ToString
 public class Entrega {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -19,7 +21,7 @@ public class Entrega {
     @Embedded
     private Localizacao enderecoOrigem;
     @Embedded
-    private Localizacao enderecoFinal;
+    private Localizacao enderecoDestino;
     private Double valor;
     @Enumerated(EnumType.STRING)
     private StatusEntrega Status = StatusEntrega.CRIADO;

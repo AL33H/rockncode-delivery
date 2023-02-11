@@ -6,15 +6,10 @@ import java.util.ArrayList;
 
 @Data
 public class ResponseDistanceMatrix {
-    public ArrayList<String> destination_addresses;
-    public ArrayList<String> origin_addresses;
-    public ArrayList<Row> rows;
-    public String status;
-}
-
-@Data
-class Row {
-    private ArrayList<Element> elements;
+    private ArrayList<String> destination_addresses;
+    private ArrayList<String> origin_addresses;
+    private ArrayList<Row> rows;
+    private String status;
 }
 
 @Data
@@ -34,20 +29,8 @@ class EntregadorRequest {
 }
 
 @Data
-class Element {
-    private Distance distance;
-    private Duration duration;
-    private String status;
-}
-
-@Data
 class Duration {
     private String text;
     private int value;
 }
 
-@Data
-class Distance {
-    private String text;
-    private int value;
-}

@@ -1,17 +1,19 @@
 package br.com.rockncodedelivery.external;
 
+import br.com.rockncodedelivery.external.dto.directions.ResponseDirectionsApi;
 import br.com.rockncodedelivery.external.dto.distanceMatrix.ResponseDistanceMatrix;
 import br.com.rockncodedelivery.external.dto.geocode.ResponseGeocodeApi;
-import br.com.rockncodedelivery.external.dto.directions.responseDirectionsApi;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Data
-public class GoogleAPI {
+@Service
+public class GoogleAPI implements ExternalApi {
 
     @Value("${api.google.key}")
     private String KEY_VALUE;
@@ -26,6 +28,7 @@ public class GoogleAPI {
     private final String constBASE_URL_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions/";
 
 
+    @Override
     public ResponseGeocodeApi buscaGeolocalizacaoEndereco(String adress) throws RuntimeException {
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -34,7 +37,7 @@ public class GoogleAPI {
 
         HttpEntity<Object> objectHttpEntity = new HttpEntity<>(httpHeaders);
 
-        String URL =  constBASE_URL_GEOCODE
+        String URL = constBASE_URL_GEOCODE
                 .concat("json?")
                 .concat("address=" + adress)
                 .concat("&key=" + constKEY_VALUE);
@@ -52,6 +55,7 @@ public class GoogleAPI {
         return exchange.getBody();
     }
 
+    @Override
     public ResponseDistanceMatrix buscaDistanciaEntreDoisEnderecos(String enderecoOrigem, String enderecoFinal) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -76,7 +80,9 @@ public class GoogleAPI {
 
         return exchange.getBody();
     }
-    public responseDirectionsApi buscaMelhorRotaEntreDoisEnderecos(String enderecoOrigem, String enderecoFinal) {
+
+    @Override
+    public ResponseDirectionsApi buscaMelhorRotaEntreDoisEnderecos(String enderecoOrigem, String enderecoFinal) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
@@ -88,8 +94,8 @@ public class GoogleAPI {
                 .concat("origin=" + enderecoOrigem)
                 .concat("&destination=" + enderecoFinal)
                 .concat("&key=" + constKEY_VALUE);
-        ResponseEntity<responseDirectionsApi> exchange = restTemplate
-                .exchange(URL, HttpMethod.GET, objectHttpEntity, responseDirectionsApi.class);
+        ResponseEntity<ResponseDirectionsApi> exchange = restTemplate
+                .exchange(URL, HttpMethod.GET, objectHttpEntity, ResponseDirectionsApi.class);
 
         if (exchange.getStatusCode() != HttpStatus.OK ||
                 exchange.getBody().getStatus().equals("REQUEST_DENIED")) {
