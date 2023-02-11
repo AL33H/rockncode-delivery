@@ -2,6 +2,7 @@ package br.com.rockncodedelivery.external;
 
 import br.com.rockncodedelivery.external.dto.ResponseDistanceMatrix;
 import br.com.rockncodedelivery.external.dto.ResponseGeocodeApi;
+import br.com.rockncodedelivery.external.dto.directions.responseDirectionsApi;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -75,20 +76,20 @@ public class GoogleAPI {
 
         return exchange.getBody();
     }
-    public ResponseDistanceMatrix buscaMelhorRotaEntreDoisEnderecos(String enderecoOrigem, String enderecoFinal) {
+    public responseDirectionsApi buscaMelhorRotaEntreDoisEnderecos(String enderecoOrigem, String enderecoFinal) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<Object> objectHttpEntity = new HttpEntity<>(httpHeaders);
 
-        String URL = constBASE_URL_DISTANCEMATRIX
+        String URL = constBASE_URL_DIRECTIONS
                 .concat("json?")
-                .concat("origins=" + enderecoOrigem)
-                .concat("&destinations=" + enderecoFinal)
+                .concat("origin=" + enderecoOrigem)
+                .concat("&destination=" + enderecoFinal)
                 .concat("&key=" + constKEY_VALUE);
-        ResponseEntity<ResponseDistanceMatrix> exchange = restTemplate
-                .exchange(URL, HttpMethod.GET, objectHttpEntity, ResponseDistanceMatrix.class);
+        ResponseEntity<responseDirectionsApi> exchange = restTemplate
+                .exchange(URL, HttpMethod.GET, objectHttpEntity, responseDirectionsApi.class);
 
         if (exchange.getStatusCode() != HttpStatus.OK ||
                 exchange.getBody().getStatus().equals("REQUEST_DENIED")) {
@@ -99,4 +100,6 @@ public class GoogleAPI {
 
         return exchange.getBody();
     }
+
+    //https://maps.googleapis.com/maps/api/directions/json?destination=Voltex, Av. Giustiniano Borin, 3215 - Jardim Caxambu, Jundiaí - SP, 13218-546&origin=Av. Silvestre José de Oliveira, 841 - Jardim Caxambu, Jundiaí - SP, 13218-662&key=AIzaSyDaDcRBJBGojQWEaULJuACXfY3HM0TdanU
 }
