@@ -1,7 +1,8 @@
 package br.com.rockncodedelivery;
 
-import br.com.rockncodedelivery.external.GeocodeAPI;
-import br.com.rockncodedelivery.external.dto.ResponseGeocodeApi;
+
+import br.com.rockncodedelivery.external.GoogleAPI;
+import br.com.rockncodedelivery.external.dto.ResponseDistanceMatrix;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -16,10 +17,12 @@ public class RockncodedeliveryApplication {
 
     public static void teste(String... args) {
 
-        System.out.println("TESTE");
-        GeocodeAPI geocodeAPI = new GeocodeAPI();
-        ResponseGeocodeApi responseGeocodeApi = geocodeAPI.requestToGeocodeApi("baixo%2guandu%2espirito%2santo");
-        System.out.println(responseGeocodeApi.toString());
+        GoogleAPI geocodeAPI = new GoogleAPI();
+//        ResponseGeocodeApi responseGeocodeApi = geocodeAPI.requestToGeocodeApi("baixo%2guandu%2espirito%2santo");
+//        System.out.println(responseGeocodeApi.toString());
+        ResponseDistanceMatrix responseDistanceMatrix = geocodeAPI
+                .requestToDistanceMatrixApi("62960000", "63960000");
+        System.out.println(responseDistanceMatrix.toString());
 
     }
 
