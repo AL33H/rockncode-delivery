@@ -57,17 +57,9 @@ public class Entrega {
         return true;
     }
 
-
     public void calcularValor(Double km) {
         this.valor = km * 1;
     }
-
-    //TODO
-    //DEFINIR REGRAS PARA STATUS
-
-    //DEFINIR REGRAS PARA PARSE GENERIC DTO.
-
-    //DEFINIR REGRAS PARA CALCULO DE VALOR
 
 }
 
