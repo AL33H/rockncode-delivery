@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Map from "../../components/Map";
 import "./styles.css";
 import logo from "./logo.png";
 
 function Dashboard() {
+
+  const urlDelivaryMan = "http://localhost:8080/v1/entrega";
+  const [userData, setUserData] = useState({});
+
+  useEffect(() => {
+    getDeliveryWithFetch();
+  }, []);
+
+  const getDeliveryWithFetch = async () => {};
   return (
     <div className="container">
       <div id="navbar">
@@ -19,17 +28,15 @@ function Dashboard() {
             <table>
               <tr>
                 <th>ID</th>
-                <th>Descrição</th>
                 <th>Endereço</th>
-                <th>Km</th>
                 <th>Valor</th>
+                <th>Status</th>
               </tr>
               <tr>
-                <td>01</td>
-                <td>Entrega 01</td>
-                <td>Rua 01</td>
-                <td>2,5km</td>
-                <td>2,50</td>
+                <td>{userData.id}</td>
+                <td>{userData.enderecoDestino}</td>
+                <td>{userData.valor}</td>
+                <td>{userData.status}</td>
               </tr>
               <tr></tr>
             </table>
