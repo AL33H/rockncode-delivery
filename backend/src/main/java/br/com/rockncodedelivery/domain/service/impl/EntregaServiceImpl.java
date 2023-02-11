@@ -4,6 +4,7 @@ import br.com.rockncodedelivery.api.v1.dto.EntregaRequest;
 import br.com.rockncodedelivery.domain.entities.Entrega;
 import br.com.rockncodedelivery.domain.entities.LocalizacaoDestino;
 import br.com.rockncodedelivery.domain.entities.LocalizacaoOrigem;
+import br.com.rockncodedelivery.domain.repository.EntregaRepository;
 import br.com.rockncodedelivery.domain.service.EntregaService;
 import br.com.rockncodedelivery.external.ExternalApi;
 import br.com.rockncodedelivery.external.GoogleAPI;
@@ -16,13 +17,16 @@ import org.springframework.stereotype.Service;
 public class EntregaServiceImpl implements EntregaService {
 
     @Autowired
-    private ExternalApi externalApi;
+    private GoogleAPI externalApi;
+
+    @Autowired
+    private EntregaRepository entregaRepository;
 
     public EntregaServiceImpl(GoogleAPI externalApi) {
         this.externalApi = externalApi;
     }
 
-    public void gerarNovaEntrega(EntregaRequest entregaRequest) {
+    public Entrega gerarNovaEntrega(EntregaRequest entregaRequest) {
 
         ResponseGeocodeApi geocodeOrigem = externalApi.buscaGeolocalizacaoEndereco(entregaRequest.getEnderecoOrigem());
         ResponseGeocodeApi geocodeDestino = externalApi.buscaGeolocalizacaoEndereco(entregaRequest.getEnderecoDestino());
@@ -42,7 +46,8 @@ public class EntregaServiceImpl implements EntregaService {
 
         String text = responseDistanceMatrix.getRows().get(0).getElements().get(0).getDistance().getText()
                 .replace("km", "")
-                .replace(" ","");
+                .replace(" ","")
+                .replace("m","");
 
 
         Entrega entrega = Entrega.builder()
@@ -52,9 +57,10 @@ public class EntregaServiceImpl implements EntregaService {
                 .valor(Double.valueOf(text))
                 .build();
 
-
         System.out.println(entrega);
 
+        return entregaRepository.save(entrega);
+        
     }
 
 
