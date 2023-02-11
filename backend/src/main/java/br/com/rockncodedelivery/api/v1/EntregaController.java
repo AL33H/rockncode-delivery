@@ -57,11 +57,11 @@ public class EntregaController {
     }
 
     @PutMapping("{idEntrega}")
-    public ResponseEntity<?> proximoStatus(@PathVariable Long idEntrega) {
+    public ResponseEntity<Void> proximoStatus(@PathVariable Long idEntrega) {
         if(entregaService.proximoStatus(idEntrega)){
-            return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.OK);
+            return ResponseEntity.ok().build();
         } else {
-            return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE);
+            return ResponseEntity.notFound().build();
         }
     }
 
