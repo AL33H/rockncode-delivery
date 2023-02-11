@@ -80,7 +80,7 @@ public class EntregaServiceImpl implements EntregaService {
 
     public List<Entrega> buscarPorStatus(String status) {
         StatusEntrega statusEntrega = StatusEntrega.valueOf(status);
-        return entregaRepository.findAll();
+        return entregaRepository.findByStatus(statusEntrega);
     }
 
     public ResponseDirectionsApi obterMelhorRota(String enderecoOrigem, String enderecoFinal) {
