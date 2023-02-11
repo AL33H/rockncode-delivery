@@ -18,17 +18,19 @@ public class GoogleAPI implements ExternalApi {
 
     @Value("${api.google.key}")
     private String KEY_VALUE;
-    @Value("${api.google.base.url}")
-    private String BASE_URL;
+    @Value("${api.google.base.url.geocode}")
+    private String BASE_URL_GEOCODE;
+
+    @Value("${api.google.base.url.distancematrix}")
+    private String BASE_URL_DISTANCEMATRIX;
+
+    @Value("${api.google.base.url.directions}")
+    private String BASE_URL_DIRECTIONS;
+
+    @Value("${api.google.base.url.place}")
+    private String BASE_URL_PLACE;
 
     RestTemplate restTemplate = new RestTemplate();
-
-    private final String constKEY_VALUE = "AIzaSyDaDcRBJBGojQWEaULJuACXfY3HM0TdanU";
-    private final String constBASE_URL_GEOCODE = "https://maps.googleapis.com/maps/api/geocode/";
-    private final String constBASE_URL_DISTANCEMATRIX = "https://maps.googleapis.com/maps/api/distancematrix/";
-    private final String constBASE_URL_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions/";
-    private final String constBASE_URL_PLACE = "https://maps.googleapis.com/maps/api/place/nearbysearch/";
-
 
     @Override
     public ResponseGeocodeApi buscaGeolocalizacaoEndereco(String adress) throws RuntimeException {
@@ -39,10 +41,10 @@ public class GoogleAPI implements ExternalApi {
 
         HttpEntity<Object> objectHttpEntity = new HttpEntity<>(httpHeaders);
 
-        String URL = constBASE_URL_GEOCODE
+        String URL = BASE_URL_GEOCODE
                 .concat("json?")
                 .concat("address=" + adress)
-                .concat("&key=" + constKEY_VALUE);
+                .concat("&key=" + KEY_VALUE);
 
         ResponseEntity<ResponseGeocodeApi> exchange = restTemplate
                 .exchange(URL, HttpMethod.POST, objectHttpEntity, ResponseGeocodeApi.class);
@@ -65,11 +67,11 @@ public class GoogleAPI implements ExternalApi {
 
         HttpEntity<Object> objectHttpEntity = new HttpEntity<>(httpHeaders);
 
-        String URL = constBASE_URL_DISTANCEMATRIX
+        String URL = BASE_URL_DISTANCEMATRIX
                 .concat("json?")
                 .concat("origins=" + enderecoOrigem)
                 .concat("&destinations=" + enderecoFinal)
-                .concat("&key=" + constKEY_VALUE);
+                .concat("&key=" + KEY_VALUE);
         ResponseEntity<ResponseDistanceMatrix> exchange = restTemplate
                 .exchange(URL, HttpMethod.GET, objectHttpEntity, ResponseDistanceMatrix.class);
 
@@ -91,11 +93,11 @@ public class GoogleAPI implements ExternalApi {
 
         HttpEntity<Object> objectHttpEntity = new HttpEntity<>(httpHeaders);
 
-        String URL = constBASE_URL_DIRECTIONS
+        String URL = BASE_URL_DIRECTIONS
                 .concat("json?")
                 .concat("origin=" + enderecoOrigem)
                 .concat("&destination=" + enderecoFinal)
-                .concat("&key=" + constKEY_VALUE);
+                .concat("&key=" + KEY_VALUE);
         ResponseEntity<ResponseDirectionsApi> exchange = restTemplate
                 .exchange(URL, HttpMethod.GET, objectHttpEntity, ResponseDirectionsApi.class);
 
@@ -124,11 +126,11 @@ public class GoogleAPI implements ExternalApi {
 
         HttpEntity<Object> objectHttpEntity = new HttpEntity<>(httpHeaders);
 
-        String URL = constBASE_URL_DIRECTIONS
+        String URL = BASE_URL_DIRECTIONS
                 .concat("json?")
                 .concat("location=" + latitude +"2%2C"+ longitude)
                 .concat("&radius=" + 500)
-                .concat("&key=" + constKEY_VALUE);
+                .concat("&key=" + KEY_VALUE);
         ResponseEntity<ResponsePlacesApi> exchange = restTemplate
                 .exchange(URL, HttpMethod.GET, objectHttpEntity, ResponsePlacesApi.class);
 
