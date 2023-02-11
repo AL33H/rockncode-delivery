@@ -6,6 +6,8 @@
 *.iml
 out
 gen
+target/
+.mvn/
 ### Node template
 # Logs
 logs
