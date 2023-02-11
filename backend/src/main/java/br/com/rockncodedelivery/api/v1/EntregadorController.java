@@ -1,10 +1,8 @@
-package br.com.rockncodedelivery.api;
+package br.com.rockncodedelivery.api.v1;
 
-import br.com.rockncodedelivery.domain.entities.Entregador;
-import br.com.rockncodedelivery.domain.repository.EntregadorRepository;
+import br.com.rockncodedelivery.api.v1.dto.EntregadorRequest;
+import br.com.rockncodedelivery.api.v1.dto.EntregadorResponse;
 import br.com.rockncodedelivery.domain.service.impl.EntregadorServiceImpl;
-import br.com.rockncodedelivery.external.dto.EntregadorRequest;
-import br.com.rockncodedelivery.external.dto.EntregadorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
