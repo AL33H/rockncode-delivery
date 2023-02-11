@@ -25,8 +25,8 @@ public class Entrega {
     @Embedded
     private LocalizacaoDestino enderecoDestino;
     private Double valor;
-    @Enumerated(EnumType.STRING)
-    private StatusEntrega Status = StatusEntrega.CRIADO;
+    @Enumerated(EnumType.ORDINAL)
+    private StatusEntrega status = StatusEntrega.CRIADO;
 
     public Entrega() {
     }
@@ -38,33 +38,28 @@ public class Entrega {
         this.enderecoOrigem = enderecoOrigem;
         this.enderecoDestino = enderecoDestino;
         this.valor = valor;
-        Status = StatusEntrega.CRIADO;
+        this.status = StatusEntrega.CRIADO;
     }
 
-    public void proximoStatus() {
+    public boolean proximoStatus() {
         if (entregador != null) {
-            switch (this.Status) {
+            switch (this.status) {
                 case CRIADO:
-                    this.Status = StatusEntrega.EMANDAMENTO;
+                    this.status = StatusEntrega.EMANDAMENTO;
                     break;
                 case EMANDAMENTO:
-                    this.Status = StatusEntrega.CONCLUIDO;
+                    this.status = StatusEntrega.CONCLUIDO;
                     break;
             }
+        } else {
+            return false;
         }
+        return true;
     }
-
 
     public void calcularValor(Double km) {
         this.valor = km * 1;
     }
-
-    //TODO
-    //DEFINIR REGRAS PARA STATUS
-
-    //DEFINIR REGRAS PARA PARSE GENERIC DTO.
-
-    //DEFINIR REGRAS PARA CALCULO DE VALOR
 
 }
 

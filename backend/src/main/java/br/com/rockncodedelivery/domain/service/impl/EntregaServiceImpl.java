@@ -80,7 +80,7 @@ public class EntregaServiceImpl implements EntregaService {
 
     public List<Entrega> buscarPorStatus(String status) {
         StatusEntrega statusEntrega = StatusEntrega.valueOf(status);
-        return entregaRepository.findAll();
+        return entregaRepository.findByStatus(statusEntrega);
     }
 
     public ResponseDirectionsApi obterMelhorRota(String enderecoOrigem, String enderecoFinal) {
@@ -94,9 +94,14 @@ public class EntregaServiceImpl implements EntregaService {
         entregaRepository.save(entrega);
     }
 
-    public void proximoStatus(Long idEntrega) {
+
+    public boolean proximoStatus(Long idEntrega) {
         Entrega entrega = buscarPorId(idEntrega);
-        entrega.proximoStatus();
-        entregaRepository.save(entrega);
+        if (entrega.proximoStatus()) {
+            entregaRepository.save(entrega);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

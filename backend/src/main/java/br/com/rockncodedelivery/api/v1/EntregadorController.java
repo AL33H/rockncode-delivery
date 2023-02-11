@@ -5,13 +5,12 @@ import br.com.rockncodedelivery.api.v1.dto.EntregadorResponse;
 import br.com.rockncodedelivery.domain.service.impl.EntregadorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/v1/entregador")
 public class EntregadorController {
 
@@ -36,7 +35,7 @@ public class EntregadorController {
     }
 
     @GetMapping("/{id}")
-    public void buscarPorId(@PathVariable Long id){
+    public void buscarPorId(@PathVariable Long id) {
         entregadorService.buscarPorId(id);
     }
 }
