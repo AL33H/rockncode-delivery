@@ -3,6 +3,7 @@ package br.com.rockncodedelivery.external;
 import br.com.rockncodedelivery.external.dto.directions.ResponseDirectionsApi;
 import br.com.rockncodedelivery.external.dto.distanceMatrix.ResponseDistanceMatrix;
 import br.com.rockncodedelivery.external.dto.geocode.ResponseGeocodeApi;
+import br.com.rockncodedelivery.external.dto.places.ResponsePlacesApi;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -26,6 +27,7 @@ public class GoogleAPI implements ExternalApi {
     private final String constBASE_URL_GEOCODE = "https://maps.googleapis.com/maps/api/geocode/";
     private final String constBASE_URL_DISTANCEMATRIX = "https://maps.googleapis.com/maps/api/distancematrix/";
     private final String constBASE_URL_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions/";
+    private final String constBASE_URL_PLACE = "https://maps.googleapis.com/maps/api/place/nearbysearch/";
 
 
     @Override
@@ -106,6 +108,41 @@ public class GoogleAPI implements ExternalApi {
 
         return exchange.getBody();
     }
+
+    @Override
+    public ResponsePlacesApi buscaReferenciasNoEnderecoFinal(String enderecoFinal) {
+
+
+        ResponseGeocodeApi responseGeocodeApi = buscaGeolocalizacaoEndereco(enderecoFinal);
+        Double latitude = responseGeocodeApi.getResults().get(0).getGeometry().getLocation().getLng();
+        Double longitude = responseGeocodeApi.getResults().get(0).getGeometry().getLocation().getLat();
+
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<Object> objectHttpEntity = new HttpEntity<>(httpHeaders);
+
+        String URL = constBASE_URL_DIRECTIONS
+                .concat("json?")
+                .concat("location=" + latitude +"2%2C"+ longitude)
+                .concat("&radius=" + 500)
+                .concat("&key=" + constKEY_VALUE);
+        ResponseEntity<ResponsePlacesApi> exchange = restTemplate
+                .exchange(URL, HttpMethod.GET, objectHttpEntity, ResponsePlacesApi.class);
+
+        if (exchange.getStatusCode() != HttpStatus.OK ||
+                exchange.getBody().getStatus().equals("REQUEST_DENIED")) {
+
+            throw new RuntimeException("Erro ao requisitar no google Api.");
+
+        }
+
+        return exchange.getBody();
+    }
+
+
 
     //https://maps.googleapis.com/maps/api/directions/json?destination=Voltex, Av. Giustiniano Borin, 3215 - Jardim Caxambu, Jundiaí - SP, 13218-546&origin=Av. Silvestre José de Oliveira, 841 - Jardim Caxambu, Jundiaí - SP, 13218-662&key=AIzaSyDaDcRBJBGojQWEaULJuACXfY3HM0TdanU
 }

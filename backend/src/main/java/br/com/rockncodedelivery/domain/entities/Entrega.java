@@ -2,6 +2,7 @@ package br.com.rockncodedelivery.domain.entities;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Entrega {
     private Long id;
     private String nomeSolicitante;
     @OneToOne
+    @Setter
     private Entregador entregador;
     @Embedded
     private LocalizacaoOrigem enderecoOrigem;
@@ -40,18 +42,20 @@ public class Entrega {
     }
 
     public void proximoStatus() {
-        switch (this.Status) {
-            case CRIADO:
-                this.Status = StatusEntrega.EMANDAMENTO;
-                break;
-            case EMANDAMENTO:
-                this.Status = StatusEntrega.CONCLUIDO;
-                break;
+        if (entregador != null) {
+            switch (this.Status) {
+                case CRIADO:
+                    this.Status = StatusEntrega.EMANDAMENTO;
+                    break;
+                case EMANDAMENTO:
+                    this.Status = StatusEntrega.CONCLUIDO;
+                    break;
+            }
         }
     }
 
 
-    public void calcularValor(Double km){
+    public void calcularValor(Double km) {
         this.valor = km * 1;
     }
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping
+@RequestMapping("/v1/entregador")
 public class EntregadorController {
 
     @Autowired
@@ -20,7 +20,6 @@ public class EntregadorController {
 
     @PostMapping
     public EntregadorResponse criarEntregador(@Validated @RequestBody EntregadorRequest entregadorRequest) {
-
         EntregadorResponse entregadorSalvo = entregadorService.criarEntregador(entregadorRequest);
         return entregadorSalvo;
     }
@@ -30,9 +29,14 @@ public class EntregadorController {
         return entregadorService.listarEntregadores();
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarEntregador(@PathVariable Long id) throws Exception {
         entregadorService.deletarEntregador(id);
+    }
+
+    @GetMapping("/{id}")
+    public void buscarPorId(@PathVariable Long id){
+        entregadorService.buscarPorId(id);
     }
 }
