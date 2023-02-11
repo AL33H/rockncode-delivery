@@ -10,7 +10,4 @@ import java.util.List;
 @Repository
 public interface EntregadorRepository extends JpaRepository<Entregador, Long> {
 
-    public List<Entregador> listarEntregadores();
-
-    void deleteById (long id);
 }

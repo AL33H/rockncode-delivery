@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "rockncode_db")
 public class Entregador {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -28,7 +28,7 @@ public class EntregadorServiceImpl implements EntregadorService {
     }
 
     public List<EntregadorResponse> listarEntregadores() {
-        List<Entregador> entregadorList = (List<Entregador>) entregadorRepository.listarEntregadores();
+        List<Entregador> entregadorList = (List<Entregador>) entregadorRepository.findAll();
         List<EntregadorResponse> entregadorResponseList = new ArrayList<>();
         entregadorList.forEach(entregador -> {
             EntregadorResponse entregadorResponse = modelMapper.map(entregador, EntregadorResponse.class);
