@@ -1,12 +1,8 @@
 package br.com.rockncodedelivery.domain.service.impl;
 
 import br.com.rockncodedelivery.api.v1.dto.EntregaRequest;
-import br.com.rockncodedelivery.domain.entities.Entrega;
-import br.com.rockncodedelivery.domain.entities.Entregador;
-import br.com.rockncodedelivery.domain.entities.LocalizacaoDestino;
-import br.com.rockncodedelivery.domain.entities.LocalizacaoOrigem;
+import br.com.rockncodedelivery.domain.entities.*;
 import br.com.rockncodedelivery.domain.repository.EntregaRepository;
-import br.com.rockncodedelivery.domain.repository.EntregadorRepository;
 import br.com.rockncodedelivery.domain.service.EntregaService;
 import br.com.rockncodedelivery.external.ExternalApi;
 import br.com.rockncodedelivery.external.GoogleAPI;
@@ -15,10 +11,6 @@ import br.com.rockncodedelivery.external.dto.distanceMatrix.ResponseDistanceMatr
 import br.com.rockncodedelivery.external.dto.geocode.ResponseGeocodeApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,13 +22,13 @@ public class EntregaServiceImpl implements EntregaService {
 
     private EntregaRepository entregaRepository;
 
-    private EntregadorRepository entregadorRepository;
+    private EntregadorServiceImpl entregadorService;
 
     @Autowired
-    public EntregaServiceImpl(GoogleAPI externalApi, EntregaRepository entregaRepository, EntregadorRepository entregadorRepository) {
+    public EntregaServiceImpl(GoogleAPI externalApi, EntregaRepository entregaRepository, EntregadorServiceImpl entregadorService) {
         this.externalApi = externalApi;
         this.entregaRepository = entregaRepository;
-        this.entregadorRepository = entregadorRepository;
+        this.entregadorService = entregadorService;
     }
 
     public Entrega gerarNovaEntrega(EntregaRequest entregaRequest) {
@@ -78,20 +70,33 @@ public class EntregaServiceImpl implements EntregaService {
         return entrega.orElseThrow(IllegalStateException::new);
     }
 
-    public List<Entrega> buscarTodos(){
+    public List<Entrega> buscarTodos() {
         return entregaRepository.findAll();
     }
 
-    public void deletarPorId(Long id){
+    public void deletarPorId(Long id) {
         entregaRepository.deleteById(id);
     }
 
-    public ResponseDirectionsApi obterMelhorRota(String enderecoOrigem, String enderecoFinal){
+    public List<Entrega> buscarPorStatus(String status) {
+        StatusEntrega statusEntrega = StatusEntrega.valueOf(status);
+        return entregaRepository.findByStatus(statusEntrega);
+    }
+
+    public ResponseDirectionsApi obterMelhorRota(String enderecoOrigem, String enderecoFinal) {
         return externalApi.buscaMelhorRotaEntreDoisEnderecos(enderecoOrigem, enderecoOrigem);
     }
 
-    public void vincularEntregaAEntregador(Long idEntregador, Long idEntrega){
+    public void vincularEntregadorAEntrega(Long idEntregador, Long idEntrega) {
         Entrega entrega = this.buscarPorId(idEntrega);
-        Optional<Entregador> byId = entregadorRepository.findById(idEntregador);
+        Entregador entregador = entregadorService.buscarPorId(idEntregador);
+        entrega.setEntregador(entregador);
+        entregaRepository.save(entrega);
+    }
+
+    public void proximoStatus(Long idEntrega) {
+        Entrega entrega = buscarPorId(idEntrega);
+        entrega.proximoStatus();
+        entregaRepository.save(entrega);
     }
 }
