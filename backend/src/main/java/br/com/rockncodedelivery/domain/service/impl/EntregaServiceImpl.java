@@ -1,6 +1,7 @@
 package br.com.rockncodedelivery.domain.service.impl;
 
 import br.com.rockncodedelivery.api.v1.dto.EntregaRequest;
+import br.com.rockncodedelivery.api.v1.dto.EntregadorResponse;
 import br.com.rockncodedelivery.domain.entities.*;
 import br.com.rockncodedelivery.domain.repository.EntregaRepository;
 import br.com.rockncodedelivery.domain.service.EntregaService;
@@ -9,6 +10,7 @@ import br.com.rockncodedelivery.external.GoogleAPI;
 import br.com.rockncodedelivery.external.dto.directions.ResponseDirectionsApi;
 import br.com.rockncodedelivery.external.dto.distanceMatrix.ResponseDistanceMatrix;
 import br.com.rockncodedelivery.external.dto.geocode.ResponseGeocodeApi;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ import java.util.Optional;
 
 @Service
 public class EntregaServiceImpl implements EntregaService {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private ExternalApi externalApi;
 
@@ -89,7 +94,8 @@ public class EntregaServiceImpl implements EntregaService {
 
     public void vincularEntregadorAEntrega(Long idEntregador, Long idEntrega) {
         Entrega entrega = this.buscarPorId(idEntrega);
-        Entregador entregador = entregadorService.buscarPorId(idEntregador);
+        EntregadorResponse entregadorResponse = entregadorService.buscarPorId(idEntregador);
+        Entregador entregador = modelMapper.map(entregadorResponse, Entregador.class);
         entrega.setEntregador(entregador);
         entregaRepository.save(entrega);
     }

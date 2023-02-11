@@ -18,12 +18,12 @@ public class EntregadorController {
     private EntregadorServiceImpl entregadorService;
 
     @PostMapping
-    public EntregadorResponse criarEntregador(@Validated @RequestBody EntregadorRequest entregadorRequest) {
+    public EntregadorResponse criarEntregador(@RequestBody EntregadorRequest entregadorRequest) {
         EntregadorResponse entregadorSalvo = entregadorService.criarEntregador(entregadorRequest);
         return entregadorSalvo;
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public List<EntregadorResponse> listarEntregadores() {
         return entregadorService.listarEntregadores();
     }
@@ -35,7 +35,7 @@ public class EntregadorController {
     }
 
     @GetMapping("/{id}")
-    public void buscarPorId(@PathVariable Long id) {
-        entregadorService.buscarPorId(id);
+    public EntregadorResponse buscarPorId(@PathVariable Long id) {
+        return entregadorService.buscarPorId(id);
     }
 }

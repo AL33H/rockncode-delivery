@@ -42,7 +42,10 @@ public class EntregadorServiceImpl implements EntregadorService {
         entregadorRepository.deleteById(entregador.get().getId());
     }
 
-    public Entregador buscarPorId(Long id){
-        return entregadorRepository.findById(id).orElseThrow(IllegalStateException::new);
+    public EntregadorResponse buscarPorId(Long id){
+        Entregador entregador = entregadorRepository.findById(id).orElseThrow(IllegalStateException::new);
+        EntregadorResponse entregadorResponse = modelMapper.map(entregador, EntregadorResponse.class);
+        return entregadorResponse;
+
     }
 }
