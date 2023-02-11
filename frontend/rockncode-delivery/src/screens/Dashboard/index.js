@@ -1,13 +1,14 @@
 import React from "react";
 import Map from "../../components/Map";
-import './styles.css';
+import "./styles.css";
+import logo from "./logo.png";
 
 function Dashboard() {
   return (
     <div className="container">
       <div id="navbar">
-        <img className="logo" alt="ícone da empresa." />
-        <span>Rock 'N' Code Delivery</span>
+        <img src={logo} className="logo" alt="ícone da empresa." />
+        <span id="name-app">Rock 'N' Code Delivery</span>
       </div>
       <h1 className="slogan">O melhor serviço de entregas!</h1>
       <div id="main">
@@ -56,10 +57,18 @@ function Dashboard() {
             <p>Formação de Entrega</p>
             <hr />
             <table>
-              <th>Entregador selecionado</th>
-              <th>Entregas selecionadas</th>
-              <th>Total de entregas</th>
-              <th>Tempo estimado</th>
+              <tr>
+                <th>Entregador selecionado</th>
+                <th>Entregas selecionadas</th>
+                <th>Total de entregas</th>
+                <th>Tempo estimado</th>
+              </tr>
+              <tr>
+                <td>Luiz Gomes</td>
+                <td>03</td>
+                <td>30</td>
+                <td>10 minutos</td>
+              </tr>
             </table>
           </div>
           <div id="entregadores-em-rota" className="cards">
