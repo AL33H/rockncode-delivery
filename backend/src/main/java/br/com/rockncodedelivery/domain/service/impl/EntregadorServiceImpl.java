@@ -37,8 +37,12 @@ public class EntregadorServiceImpl implements EntregadorService {
         return entregadorResponseList;
     }
 
-    public void deletarEntregador(Long id) throws Exception {
+    public void deletarEntregador(Long id){
         Optional<Entregador> entregador = entregadorRepository.findById(id);
         entregadorRepository.deleteById(entregador.get().getId());
+    }
+
+    public Entregador buscarPorId(Long id){
+        return entregadorRepository.findById(id).orElseThrow(IllegalStateException::new);
     }
 }

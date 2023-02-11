@@ -2,12 +2,15 @@ package br.com.rockncodedelivery.domain.service.impl;
 
 import br.com.rockncodedelivery.api.v1.dto.EntregaRequest;
 import br.com.rockncodedelivery.domain.entities.Entrega;
+import br.com.rockncodedelivery.domain.entities.Entregador;
 import br.com.rockncodedelivery.domain.entities.LocalizacaoDestino;
 import br.com.rockncodedelivery.domain.entities.LocalizacaoOrigem;
 import br.com.rockncodedelivery.domain.repository.EntregaRepository;
+import br.com.rockncodedelivery.domain.repository.EntregadorRepository;
 import br.com.rockncodedelivery.domain.service.EntregaService;
 import br.com.rockncodedelivery.external.ExternalApi;
 import br.com.rockncodedelivery.external.GoogleAPI;
+import br.com.rockncodedelivery.external.dto.directions.ResponseDirectionsApi;
 import br.com.rockncodedelivery.external.dto.distanceMatrix.ResponseDistanceMatrix;
 import br.com.rockncodedelivery.external.dto.geocode.ResponseGeocodeApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,14 @@ public class EntregaServiceImpl implements EntregaService {
     private ExternalApi externalApi;
 
     private EntregaRepository entregaRepository;
+
+    private EntregadorRepository entregadorRepository;
+
     @Autowired
-    public EntregaServiceImpl(GoogleAPI externalApi, EntregaRepository entregaRepository) {
+    public EntregaServiceImpl(GoogleAPI externalApi, EntregaRepository entregaRepository, EntregadorRepository entregadorRepository) {
         this.externalApi = externalApi;
         this.entregaRepository = entregaRepository;
+        this.entregadorRepository = entregadorRepository;
     }
 
     public Entrega gerarNovaEntrega(EntregaRequest entregaRequest) {
@@ -66,7 +73,7 @@ public class EntregaServiceImpl implements EntregaService {
         return entregaRepository.save(entrega);
     }
 
-    public Entrega buscarPorId(@RequestParam(value = "id") Long id) {
+    public Entrega buscarPorId(Long id) {
         Optional<Entrega> entrega = entregaRepository.findById(id);
         return entrega.orElseThrow(IllegalStateException::new);
     }
@@ -75,7 +82,16 @@ public class EntregaServiceImpl implements EntregaService {
         return entregaRepository.findAll();
     }
 
-    public void deletarPorId(@RequestParam(value = "id") Long id){
+    public void deletarPorId(Long id){
         entregaRepository.deleteById(id);
+    }
+
+    public ResponseDirectionsApi obterMelhorRota(String enderecoOrigem, String enderecoFinal){
+        return externalApi.buscaMelhorRotaEntreDoisEnderecos(enderecoOrigem, enderecoOrigem);
+    }
+
+    public void vincularEntregaAEntregador(Long idEntregador, Long idEntrega){
+        Entrega entrega = this.buscarPorId(idEntrega);
+        Optional<Entregador> byId = entregadorRepository.findById(idEntregador);
     }
 }
