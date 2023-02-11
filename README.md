@@ -34,13 +34,33 @@ a jornada de Back End e Front End....
 Coletado e abstraído o objetivo do projeto, iniciamos o levantamento de requisitos e
 definição das entidades e atributos que serão armazenados. Uma vez validado e
 atendido os requisitos a equipe de Back iniciou as implementações e desenvolvimento
-utilizando – se de... yyy..
+utilizando: 
+
+1- Comando do docker-compose no prompt de comando: 
+
+     docker-compose -f postgres-docker-compose.yml up -d  
+
+2- Executando o Clean e Package no maven 
+      
+            mvn clean package
+
+3- Selecionando a versão correta do Java
+
+4- Executando o build da aplicação 
+
+5- Iniciar a aplicação do banckend atravez do botão run.
+
+
+
+
+
 
 ## Recursos Técnico para upstream Front End.
 Coletado e abstraído o objetivo do projeto, iniciamos o rascunho e prototipagem das
 telas que estarão disponíveis ao operador da torre de controle. Uma vez validado e
 atendido os requisitos a equipe de front iniciou as implementações e desenvolvimento
-utilizando – se de... yyy..
+utilizando –  se da  biblioteca React Js usando os comandos npm install e npm start e
+para estilização, CSS puro.
 
 
 
